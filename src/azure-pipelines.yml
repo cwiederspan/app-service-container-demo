@@ -19,4 +19,4 @@ steps:
     docker push $(imageName)
     docker push $(latest)
   env:
-    pswd: $(dockerPassword)
+    pswd: $(dockerPwd)
