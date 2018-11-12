@@ -24,7 +24,7 @@ jobs:
     steps:
       - run:
           name: Install Azure CLI
-          command: pip install --user azure-cli
+          command: pip install azure-cli
       - run:
           name: Login and Deploy to Azure Wep App
           command: |
