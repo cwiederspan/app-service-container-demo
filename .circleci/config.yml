@@ -31,3 +31,14 @@ jobs:
             az login --service-principal -u $SP_ID -p $SP_PWD --tenant $SP_TENANT
             IMAGE=$DOCKER_ID.azurecr.io/circleci/ruby-hello-world:$CIRCLE_BUILD_NUM
             az webapp config container set -n amp-site-circleci -g amp-app-20181111-rg -c $IMAGE
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
