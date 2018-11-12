@@ -17,3 +17,17 @@ jobs:
             docker login -u $DOCKER_ID -p $DOCKER_PWD $DOCKER_ID.azurecr.io
             docker build -t $IMAGE ./src
             docker push $IMAGE
+  deploy:
+    docker:
+      - image: circleci/terraform
+    working_directory: ~/circleci-docs
+    steps:
+      - run:
+          name: Install Azure CLI
+          command: sudo pip install azure-cli
+      - run:
+          name: Login and Deploy to Azure Wep App
+          command: |
+            az login --service-principal -u $SP_ID -p $SP_PWD --tenant $SP_TENANT
+            IMAGE=$DOCKER_ID.azurecr.io/circleci/ruby-hello-world:$CIRCLE_BUILD_NUM
+            az webapp config container set -n amp-site-circleci -g amp-app-20181111-rg -c $IMAGE
