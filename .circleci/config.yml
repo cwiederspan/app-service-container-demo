@@ -19,12 +19,9 @@ jobs:
             docker push $IMAGE
   deploy:
     docker:
-      - image: circleci/python:2.7-jessie
+      - image: microsoft/azure-cli
     working_directory: /tmp/circleci
     steps:
-      - run:
-          name: Install Azure CLI
-          command: pip install azure-cli
       - run:
           name: Login and Deploy to Azure Wep App
           command: |
