@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang
+    working_directory: /tmp/circleci
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Build and Save to Azure ACR
+          command: |
+            IMAGE=ampimages.azurecr.io/circleci/ruby-hello-world:dummy
+            docker login -u ampimages -p VZT12LW+JeMZ1wsY3pliQ8aDcFMRPBrs ampimages.azurecr.io
+            docker build -t $IMAGE ./src
+            docker push $IMAGE
