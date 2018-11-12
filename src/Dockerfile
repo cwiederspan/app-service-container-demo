@@ -21,4 +21,4 @@ COPY . ./
 
 EXPOSE 80
 
-ENTRYPOINT bundle exec rails s -p 80 -b 0.0.0.0
+ENTRYPOINT bundle exec rails s -p 80 -b '0.0.0.0'

@@ -6,27 +6,27 @@ variable "resource_group_name" {
   default = "amp-app-20181111-rg"
 }
 
-variable "app_service_name" { 
-  default = "ampsite20181111"
+variable "app_service_plan_name" { 
+  default = "amp-app-20181111-plan"
 }
 
 variable "location" {
   default = "westus2"
 }
 
-variable "acr_name" { 
-  default = "ampimages"
-}
+# variable "acr_name" { 
+#   default = "ampimages"
+# }
 
-variable "acr_password" { }
+# variable "acr_password" { }
 
-variable "image_name" { 
-  # default = "microservice-api-docker-01"
-}
+# variable "image_name" { 
+#   # default = "microservice-api-docker-01"
+# }
 
-variable "image_tag" { 
-  # default = "latest"
-}
+# variable "image_tag" { 
+#   # default = "latest"
+# }
 
 
 resource "azurerm_resource_group" "group" {
@@ -35,7 +35,7 @@ resource "azurerm_resource_group" "group" {
 }
 
 resource "azurerm_app_service_plan" "plan" {
-  name                = "${var.app_service_name}-plan"
+  name                = "${var.app_service_plan_name}"
   resource_group_name = "${var.resource_group_name}"
   location            = "${var.location}"
   kind                = "Linux"
@@ -50,23 +50,23 @@ resource "azurerm_app_service_plan" "plan" {
   }
 }
 
-resource "azurerm_app_service" "app" {
-  name                = "${var.app_service_name}"
-  resource_group_name = "${var.resource_group_name}"
-  location            = "${var.location}"
-  app_service_plan_id = "${azurerm_app_service_plan.plan.id}"
-  #kind                = "app,linux,container"
+# resource "azurerm_app_service" "app" {
+#   name                = "amp-site-${var.image_tag}"
+#   resource_group_name = "${var.resource_group_name}"
+#   #location            = "${var.location}"
+#   app_service_plan_id = "${azurerm_app_service_plan.plan.id}"
+#   #kind                = "app,linux,container"
 
-  site_config {
-    always_on         = true
-    linux_fx_version  = "DOCKER|${var.acr_name}.azurecr.io/${var.image_name}:${var.image_tag}"
-    #default_documents = [ "Index.html" ]
-  }
+#   site_config {
+#     always_on         = true
+#     linux_fx_version  = "DOCKER|${var.acr_name}.azurecr.io/${var.image_name}:${var.image_tag}"
+#     #default_documents = [ "Index.html" ]
+#   }
 
-  app_settings {
-    WEBSITES_ENABLE_APP_SERVICE_STORAGE = "false"
-    DOCKER_REGISTRY_SERVER_URL          = "https://${var.acr_name}.azurecr.io"
-    DOCKER_REGISTRY_SERVER_USERNAME     = "${var.acr_name}"
-    DOCKER_REGISTRY_SERVER_PASSWORD     = "${var.acr_password}"
-  }
-}
+#   app_settings {
+#     WEBSITES_ENABLE_APP_SERVICE_STORAGE = "false"
+#     DOCKER_REGISTRY_SERVER_URL          = "https://${var.acr_name}.azurecr.io"
+#     DOCKER_REGISTRY_SERVER_USERNAME     = "${var.acr_name}"
+#     DOCKER_REGISTRY_SERVER_PASSWORD     = "${var.acr_password}"
+#   }
+# }
