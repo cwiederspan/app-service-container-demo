@@ -19,8 +19,8 @@ jobs:
             docker push $IMAGE
   deploy:
     docker:
-      - image: circleci/terraform
-    working_directory: ~/circleci-docs
+      - image: circleci/golang
+    working_directory: /tmp/circleci
     steps:
       - run:
           name: Install Azure CLI
