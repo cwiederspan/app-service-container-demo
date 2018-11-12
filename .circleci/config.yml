@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Build and Save to Azure ACR
           command: |
-            IMAGE=$DOCKER_ID.azurecr.io/circleci/ruby-hello-world:$CIRCLE_BUILD_NUM
+            IMAGE=$DOCKER_ID.azurecr.io/circleci/ruby-hello-world:$CIRCLE_WORKFLOW_ID
             docker login -u $DOCKER_ID -p $DOCKER_PWD $DOCKER_ID.azurecr.io
             docker build -t $IMAGE ./src
             docker push $IMAGE
@@ -26,7 +26,7 @@ jobs:
           name: Login and Deploy to Azure Wep App
           command: |
             az login --service-principal -u $SP_ID -p $SP_PWD --tenant $SP_TENANT
-            IMAGE=$DOCKER_ID.azurecr.io/circleci/ruby-hello-world:$CIRCLE_BUILD_NUM
+            IMAGE=$DOCKER_ID.azurecr.io/circleci/ruby-hello-world:$CIRCLE_WORKFLOW_ID
             az webapp config container set -n amp-site-circleci -g amp-app-20181111-rg -c $IMAGE
 workflows:
   version: 2
